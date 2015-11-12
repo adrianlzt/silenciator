@@ -1,0 +1,25 @@
+---
+  # Nivel del micro que dispara el avisador
+  threshold: 20000
+
+  # Cuantos segundos esperar entre avisos
+  wait_warns: 2
+
+  # Cada cuantos segundos rebajar el nivel a 0
+  clean_time: 60
+
+  # Programa para reproducir los WAVs
+  play: "/usr/bin/play"
+
+  # Distintos sonidos que se reproduciran segun que nivel de aviso
+  n1_wav:
+    - "shhhh.wav"
+    - "shhhh2.wav"
+    - "shhhh3.wav"
+  n2_wav:
+    - "silencio.wav"
+  n3_wav:
+    - "porque_no_te_callas.wav"
+    - "quieto_todo_el_mundo.wav"
+
+
