@@ -3,8 +3,10 @@
 Mucho ruido en la oficina? Pon a silenciator a trabajar!
 
 ## Instalación
+```
 git clone https://github.com/adrianlzt/silenciator.git
 pip install -r requisites.txt
+```
 
 Sox (para tener /usr/bin/play)
 
@@ -12,4 +14,6 @@ Sox (para tener /usr/bin/play)
 config.yml
 
 ## Ejecucción
+```
 python silenciator.py
+```
