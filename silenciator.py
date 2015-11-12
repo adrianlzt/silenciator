@@ -54,7 +54,7 @@ def clean_avisos():
 def play(audio):
     ran = randint(0,len(audio)-1) 
     FNULL = open(os.devnull, 'w')
-    Popen([config['play'], audio[ran]], stdout=FNULL, stderr=STDOUT)
+    Popen([config['play'], os.path.join("sonidos",audio[ran])], stdout=FNULL, stderr=STDOUT)
 
 def avisa_nivel():
     print("callarse! [%s]" % avisos_n)
