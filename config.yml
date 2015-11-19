@@ -5,6 +5,9 @@
   # Cuantos segundos esperar entre avisos
   wait_warns: 2
 
+  # Valor para diezmar la salida por pantalla (mayor, menos salida)
+  show: 10
+
   # Cada cuantos segundos rebajar el nivel a 0
   clean_time: 60
 

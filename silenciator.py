@@ -84,13 +84,19 @@ if __name__ == '__main__':
     hilo.start()
 
     try:
+        counter = 1
         while True:
             # Read data from device
             l,data = inp.read()
             if l:
                 # Return the maximum of the absolute value of all samples in a fragment.
                 max_v = audioop.max(data, 2)
-                #print max_v
+                if counter % config['show'] == 0:
+                    print max_v
+                    counter = 1
+                else:
+                    counter += 1
+
                 if max_v > config['threshold']:
                     avisador()
             time.sleep(.001)
