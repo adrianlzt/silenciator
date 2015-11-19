@@ -16,6 +16,12 @@ import yaml
 import sys
 import os
 import signal
+import logging
+
+LOG_FILENAME = 'silenciator.log'
+logger = logging.getLogger(__name__)
+logging.basicConfig(filename=LOG_FILENAME,level=logging.INFO)
+
 
 
 # Open the device in nonblocking capture mode. The last argument could
@@ -46,13 +52,13 @@ config = None
 
 def read_config(sgn=None, frame=None):
     global config
-    print("Leyendo config.yml")
+    logger.info("Leyendo config.yml")
     with open("config.yml") as f:
         config = yaml.load(f)
 
 def clean_avisos():
     global avisos_n
-    print("avisos_n = 0")
+    logger.info("avisos_n = 0")
     avisos_n = 0
     global hilo
     hilo = Timer(config['clean_time'], clean_avisos)
@@ -64,7 +70,7 @@ def play(audio):
     Popen([config['play'], os.path.join("sonidos",audio[ran])], stdout=FNULL, stderr=STDOUT)
 
 def avisa_nivel():
-    print("callarse! [%s]" % avisos_n)
+    logger.info("callarse! [%s]" % avisos_n)
     if avisos_n <= 2:
         play(config['n1_wav'])
     elif avisos_n <= 4:
@@ -93,8 +99,6 @@ if __name__ == '__main__':
     hilo = Timer(config['clean_time'], clean_avisos)
     hilo.start()
 
-    fd = open("silenciator.log", "w+")
-
     try:
         counter = 1
         while True:
@@ -104,8 +108,7 @@ if __name__ == '__main__':
                 # Return the maximum of the absolute value of all samples in a fragment.
                 max_v = audioop.max(data, 2)
                 if counter % config['show'] == 0:
-                    fd.write("%s\n" % max_v)
-                    fd.flush()
+                    logger.info("Value: %s",max_v)
                     counter = 1
                 else:
                     counter += 1
@@ -116,5 +119,3 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         hilo.cancel()
         sys.exit(0)
-    finally:
-        fd.close()
