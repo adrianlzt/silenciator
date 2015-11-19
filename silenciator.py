@@ -83,6 +83,8 @@ if __name__ == '__main__':
     hilo = Timer(config['clean_time'], clean_avisos)
     hilo.start()
 
+    fd = open("silenciator.log", "w+")
+
     try:
         counter = 1
         while True:
@@ -92,7 +94,8 @@ if __name__ == '__main__':
                 # Return the maximum of the absolute value of all samples in a fragment.
                 max_v = audioop.max(data, 2)
                 if counter % config['show'] == 0:
-                    print max_v
+                    fd.write("%s\n" % max_v)
+                    fd.flush()
                     counter = 1
                 else:
                     counter += 1
@@ -103,3 +106,5 @@ if __name__ == '__main__':
     except (KeyboardInterrupt, SystemExit):
         hilo.cancel()
         sys.exit(0)
+    finally:
+        fd.close()
