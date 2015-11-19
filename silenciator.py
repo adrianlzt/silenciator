@@ -15,6 +15,7 @@ from random import randint
 import yaml
 import sys
 import os
+import signal
 
 
 # Open the device in nonblocking capture mode. The last argument could
@@ -37,11 +38,17 @@ inp.setformat(alsaaudio.PCM_FORMAT_S16_LE)
 #inp.setperiodsize(160)
 inp.setperiodsize(3600)
 
-with open("config.yml") as f:
-    config = yaml.load(f)
+##### Fin audio ######
 
 aviso_t = datetime.datetime.now()
 avisos_n = 0
+config = None
+
+def read_config(sgn=None, frame=None):
+    global config
+    print("Leyendo config.yml")
+    with open("config.yml") as f:
+        config = yaml.load(f)
 
 def clean_avisos():
     global avisos_n
@@ -79,6 +86,9 @@ def avisador():
         avisa_nivel()
 
 if __name__ == '__main__':
+    read_config()
+    signal.signal(signal.SIGUSR1, read_config) # kill -10 <PID>
+
     global hilo
     hilo = Timer(config['clean_time'], clean_avisos)
     hilo.start()
